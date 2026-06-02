@@ -1,0 +1,1759 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Stack > synthesizes the DynamoDB table with generic GSI names 1`] = `
+{
+  "Outputs": {
+    "devchallengeapiurl": {
+      "Value": {
+        "Fn::GetAtt": [
+          "devchallengeapi551690ED",
+          "ApiEndpoint",
+        ],
+      },
+    },
+    "devchallengetablename": {
+      "Value": {
+        "Ref": "devchallengeitemstableC3486294",
+      },
+    },
+    "devchallengeuserpoolclientid": {
+      "Value": {
+        "Ref": "devchallengeuserpoolclient8C527EDA",
+      },
+    },
+    "devchallengeuserpoolid": {
+      "Value": {
+        "Ref": "devchallengeuserpoolD2147EB8",
+      },
+    },
+  },
+  "Resources": {
+    "devchallengeapi551690ED": {
+      "Properties": {
+        "CorsConfiguration": {
+          "AllowHeaders": [
+            "authorization",
+            "content-type",
+          ],
+          "AllowMethods": [
+            "GET",
+            "POST",
+            "PUT",
+            "OPTIONS",
+          ],
+          "AllowOrigins": [
+            "*",
+          ],
+        },
+        "Name": "dev-challenge-api",
+        "ProtocolType": "HTTP",
+      },
+      "Type": "AWS::ApiGatewayV2::Api",
+    },
+    "devchallengeapiDefaultStageB79693F8": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "devchallengeapi551690ED",
+        },
+        "AutoDeploy": true,
+        "StageName": "$default",
+      },
+      "Type": "AWS::ApiGatewayV2::Stage",
+    },
+    "devchallengeapiGETapiitems982B2643": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "devchallengeapi551690ED",
+        },
+        "AuthorizationType": "CUSTOM",
+        "AuthorizerId": {
+          "Ref": "devchallengeapidevchallengelambdaauthorizer2CB37904",
+        },
+        "RouteKey": "GET /api/items",
+        "Target": {
+          "Fn::Join": [
+            "",
+            [
+              "integrations/",
+              {
+                "Ref": "devchallengeapiGETapiitemsdevchallengelistitemsintegrationDB015BB6",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::ApiGatewayV2::Route",
+    },
+    "devchallengeapiGETapiitemsdevchallengelistitemsintegrationDB015BB6": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "devchallengeapi551690ED",
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "devchallengelistitemslambdaDA26AE12",
+            "Arn",
+          ],
+        },
+        "PayloadFormatVersion": "2.0",
+      },
+      "Type": "AWS::ApiGatewayV2::Integration",
+    },
+    "devchallengeapiGETapiitemsdevchallengelistitemsintegrationPermission26FBD0A2": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "devchallengelistitemslambdaDA26AE12",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "devchallengeapi551690ED",
+              },
+              "/*/*/api/items",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "devchallengeapiGETapiitemsidD38977D1": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "devchallengeapi551690ED",
+        },
+        "AuthorizationType": "CUSTOM",
+        "AuthorizerId": {
+          "Ref": "devchallengeapidevchallengelambdaauthorizer2CB37904",
+        },
+        "RouteKey": "GET /api/items/{id}",
+        "Target": {
+          "Fn::Join": [
+            "",
+            [
+              "integrations/",
+              {
+                "Ref": "devchallengeapiGETapiitemsiddevchallengegetitemintegration9C029E5D",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::ApiGatewayV2::Route",
+    },
+    "devchallengeapiGETapiitemsidauditE7FE9BE7": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "devchallengeapi551690ED",
+        },
+        "AuthorizationType": "CUSTOM",
+        "AuthorizerId": {
+          "Ref": "devchallengeapidevchallengelambdaauthorizer2CB37904",
+        },
+        "RouteKey": "GET /api/items/{id}/audit",
+        "Target": {
+          "Fn::Join": [
+            "",
+            [
+              "integrations/",
+              {
+                "Ref": "devchallengeapiGETapiitemsidauditdevchallengegetitemauditintegrationA42BD272",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::ApiGatewayV2::Route",
+    },
+    "devchallengeapiGETapiitemsidauditdevchallengegetitemauditintegrationA42BD272": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "devchallengeapi551690ED",
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "devchallengegetitemauditlambdaC056E0F0",
+            "Arn",
+          ],
+        },
+        "PayloadFormatVersion": "2.0",
+      },
+      "Type": "AWS::ApiGatewayV2::Integration",
+    },
+    "devchallengeapiGETapiitemsidauditdevchallengegetitemauditintegrationPermission8FF89A28": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "devchallengegetitemauditlambdaC056E0F0",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "devchallengeapi551690ED",
+              },
+              "/*/*/api/items/{id}/audit",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "devchallengeapiGETapiitemsiddevchallengegetitemintegration9C029E5D": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "devchallengeapi551690ED",
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "devchallengegetitemlambda3C18CB97",
+            "Arn",
+          ],
+        },
+        "PayloadFormatVersion": "2.0",
+      },
+      "Type": "AWS::ApiGatewayV2::Integration",
+    },
+    "devchallengeapiGETapiitemsiddevchallengegetitemintegrationPermission684BD30D": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "devchallengegetitemlambda3C18CB97",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "devchallengeapi551690ED",
+              },
+              "/*/*/api/items/{id}",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "devchallengeapiPOSTapiitemsBD6AF229": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "devchallengeapi551690ED",
+        },
+        "AuthorizationType": "CUSTOM",
+        "AuthorizerId": {
+          "Ref": "devchallengeapidevchallengelambdaauthorizer2CB37904",
+        },
+        "RouteKey": "POST /api/items",
+        "Target": {
+          "Fn::Join": [
+            "",
+            [
+              "integrations/",
+              {
+                "Ref": "devchallengeapiPOSTapiitemsdevchallengecreateitemintegration4B149C50",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::ApiGatewayV2::Route",
+    },
+    "devchallengeapiPOSTapiitemsdevchallengecreateitemintegration4B149C50": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "devchallengeapi551690ED",
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "devchallengecreateitemlambda74309CFF",
+            "Arn",
+          ],
+        },
+        "PayloadFormatVersion": "2.0",
+      },
+      "Type": "AWS::ApiGatewayV2::Integration",
+    },
+    "devchallengeapiPOSTapiitemsdevchallengecreateitemintegrationPermissionF0AF628A": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "devchallengecreateitemlambda74309CFF",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "devchallengeapi551690ED",
+              },
+              "/*/*/api/items",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "devchallengeapiPUTapiitemsid515ABADD": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "devchallengeapi551690ED",
+        },
+        "AuthorizationType": "CUSTOM",
+        "AuthorizerId": {
+          "Ref": "devchallengeapidevchallengelambdaauthorizer2CB37904",
+        },
+        "RouteKey": "PUT /api/items/{id}",
+        "Target": {
+          "Fn::Join": [
+            "",
+            [
+              "integrations/",
+              {
+                "Ref": "devchallengeapiPUTapiitemsiddevchallengeupdateitemintegrationFE179F7B",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::ApiGatewayV2::Route",
+    },
+    "devchallengeapiPUTapiitemsiddevchallengeupdateitemintegrationFE179F7B": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "devchallengeapi551690ED",
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "devchallengeupdateitemlambdaF3F64135",
+            "Arn",
+          ],
+        },
+        "PayloadFormatVersion": "2.0",
+      },
+      "Type": "AWS::ApiGatewayV2::Integration",
+    },
+    "devchallengeapiPUTapiitemsiddevchallengeupdateitemintegrationPermission55EFD6ED": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "devchallengeupdateitemlambdaF3F64135",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "devchallengeapi551690ED",
+              },
+              "/*/*/api/items/{id}",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "devchallengeapidevchallengelambdaauthorizer2CB37904": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "devchallengeapi551690ED",
+        },
+        "AuthorizerPayloadFormatVersion": "2.0",
+        "AuthorizerResultTtlInSeconds": 300,
+        "AuthorizerType": "REQUEST",
+        "AuthorizerUri": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":apigateway:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":lambda:path/2015-03-31/functions/",
+              {
+                "Fn::GetAtt": [
+                  "devchallengeauthorizerlambda13E00D6E",
+                  "Arn",
+                ],
+              },
+              "/invocations",
+            ],
+          ],
+        },
+        "EnableSimpleResponses": true,
+        "IdentitySource": [
+          "$request.header.Authorization",
+        ],
+        "Name": "dev-challenge-lambda-authorizer",
+      },
+      "Type": "AWS::ApiGatewayV2::Authorizer",
+    },
+    "devchallengeapidevchallengestacktestdevchallengeapidevchallengelambdaauthorizer9A263CEEPermission41E5360C": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "devchallengeauthorizerlambda13E00D6E",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "devchallengeapi551690ED",
+              },
+              "/authorizers/",
+              {
+                "Ref": "devchallengeapidevchallengelambdaauthorizer2CB37904",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "devchallengeauthorizerlambda13E00D6E": {
+      "DependsOn": [
+        "devchallengeauthorizerlambdaServiceRole0D3183AD",
+      ],
+      "Properties": {
+        "Code": Any<Object>,
+        "Environment": {
+          "Variables": {
+            "APP_ENV": "dev",
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "COGNITO_CLIENT_ID": {
+              "Ref": "devchallengeuserpoolclient8C527EDA",
+            },
+            "COGNITO_USER_POOL_ID": {
+              "Ref": "devchallengeuserpoolD2147EB8",
+            },
+            "LOG_LEVEL": "debug",
+          },
+        },
+        "FunctionName": "dev-challenge-authorizer",
+        "Handler": "index.handler",
+        "MemorySize": 256,
+        "Role": {
+          "Fn::GetAtt": [
+            "devchallengeauthorizerlambdaServiceRole0D3183AD",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 10,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "devchallengeauthorizerlambdaServiceRole0D3183AD": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "devchallengeauthorizerloggroup51D28012": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/dev-challenge-authorizer",
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "devchallengecreateitemlambda74309CFF": {
+      "DependsOn": [
+        "devchallengecreateitemlambdaServiceRoleDefaultPolicy9D8DAA67",
+        "devchallengecreateitemlambdaServiceRoleC81D6C57",
+      ],
+      "Properties": {
+        "Code": Any<Object>,
+        "Environment": {
+          "Variables": {
+            "APP_ENV": "dev",
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "DYNAMODB_TABLE_NAME": {
+              "Ref": "devchallengeitemstableC3486294",
+            },
+            "LOG_LEVEL": "debug",
+          },
+        },
+        "FunctionName": "dev-challenge-create-item",
+        "Handler": "index.createItem",
+        "MemorySize": 256,
+        "Role": {
+          "Fn::GetAtt": [
+            "devchallengecreateitemlambdaServiceRoleC81D6C57",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 10,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "devchallengecreateitemlambdaServiceRoleC81D6C57": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "devchallengecreateitemlambdaServiceRoleDefaultPolicy9D8DAA67": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "devchallengeitemstableC3486294",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "devchallengeitemstableC3486294",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "devchallengeitemstableC3486294",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "devchallengeitemstableC3486294",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "devchallengecreateitemlambdaServiceRoleDefaultPolicy9D8DAA67",
+        "Roles": [
+          {
+            "Ref": "devchallengecreateitemlambdaServiceRoleC81D6C57",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "devchallengecreateitemloggroupAB2AECD1": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/dev-challenge-create-item",
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "devchallengegetitemauditlambdaC056E0F0": {
+      "DependsOn": [
+        "devchallengegetitemauditlambdaServiceRoleDefaultPolicyC97733A2",
+        "devchallengegetitemauditlambdaServiceRole07BE0E87",
+      ],
+      "Properties": {
+        "Code": Any<Object>,
+        "Environment": {
+          "Variables": {
+            "APP_ENV": "dev",
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "DYNAMODB_TABLE_NAME": {
+              "Ref": "devchallengeitemstableC3486294",
+            },
+            "LOG_LEVEL": "debug",
+          },
+        },
+        "FunctionName": "dev-challenge-get-item-audit",
+        "Handler": "index.getAuditTrail",
+        "MemorySize": 256,
+        "Role": {
+          "Fn::GetAtt": [
+            "devchallengegetitemauditlambdaServiceRole07BE0E87",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 10,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "devchallengegetitemauditlambdaServiceRole07BE0E87": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "devchallengegetitemauditlambdaServiceRoleDefaultPolicyC97733A2": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "devchallengeitemstableC3486294",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "devchallengeitemstableC3486294",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "devchallengeitemstableC3486294",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "devchallengeitemstableC3486294",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "devchallengegetitemauditlambdaServiceRoleDefaultPolicyC97733A2",
+        "Roles": [
+          {
+            "Ref": "devchallengegetitemauditlambdaServiceRole07BE0E87",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "devchallengegetitemauditloggroupD2BDE7D6": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/dev-challenge-get-item-audit",
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "devchallengegetitemlambda3C18CB97": {
+      "DependsOn": [
+        "devchallengegetitemlambdaServiceRoleDefaultPolicyC1FB3123",
+        "devchallengegetitemlambdaServiceRole184C901B",
+      ],
+      "Properties": {
+        "Code": Any<Object>,
+        "Environment": {
+          "Variables": {
+            "APP_ENV": "dev",
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "DYNAMODB_TABLE_NAME": {
+              "Ref": "devchallengeitemstableC3486294",
+            },
+            "LOG_LEVEL": "debug",
+          },
+        },
+        "FunctionName": "dev-challenge-get-item",
+        "Handler": "index.getItem",
+        "MemorySize": 256,
+        "Role": {
+          "Fn::GetAtt": [
+            "devchallengegetitemlambdaServiceRole184C901B",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 10,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "devchallengegetitemlambdaServiceRole184C901B": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "devchallengegetitemlambdaServiceRoleDefaultPolicyC1FB3123": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "devchallengeitemstableC3486294",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "devchallengeitemstableC3486294",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "devchallengeitemstableC3486294",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "devchallengeitemstableC3486294",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "devchallengegetitemlambdaServiceRoleDefaultPolicyC1FB3123",
+        "Roles": [
+          {
+            "Ref": "devchallengegetitemlambdaServiceRole184C901B",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "devchallengegetitemloggroupE7F1786C": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/dev-challenge-get-item",
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "devchallengeitemstableC3486294": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "pk",
+            "AttributeType": "S",
+          },
+          {
+            "AttributeName": "sk",
+            "AttributeType": "S",
+          },
+          {
+            "AttributeName": "gsi_pk",
+            "AttributeType": "S",
+          },
+          {
+            "AttributeName": "gsi_sk",
+            "AttributeType": "S",
+          },
+          {
+            "AttributeName": "gsi2_pk",
+            "AttributeType": "S",
+          },
+          {
+            "AttributeName": "gsi2_sk",
+            "AttributeType": "S",
+          },
+          {
+            "AttributeName": "gsi3_pk",
+            "AttributeType": "S",
+          },
+          {
+            "AttributeName": "gsi3_sk",
+            "AttributeType": "S",
+          },
+          {
+            "AttributeName": "gsi4_pk",
+            "AttributeType": "S",
+          },
+          {
+            "AttributeName": "gsi4_sk",
+            "AttributeType": "S",
+          },
+        ],
+        "BillingMode": "PAY_PER_REQUEST",
+        "GlobalSecondaryIndexes": [
+          {
+            "IndexName": "gsi",
+            "KeySchema": [
+              {
+                "AttributeName": "gsi_pk",
+                "KeyType": "HASH",
+              },
+              {
+                "AttributeName": "gsi_sk",
+                "KeyType": "RANGE",
+              },
+            ],
+            "Projection": {
+              "ProjectionType": "ALL",
+            },
+          },
+          {
+            "IndexName": "gsi2",
+            "KeySchema": [
+              {
+                "AttributeName": "gsi2_pk",
+                "KeyType": "HASH",
+              },
+              {
+                "AttributeName": "gsi2_sk",
+                "KeyType": "RANGE",
+              },
+            ],
+            "Projection": {
+              "ProjectionType": "ALL",
+            },
+          },
+          {
+            "IndexName": "gsi3",
+            "KeySchema": [
+              {
+                "AttributeName": "gsi3_pk",
+                "KeyType": "HASH",
+              },
+              {
+                "AttributeName": "gsi3_sk",
+                "KeyType": "RANGE",
+              },
+            ],
+            "Projection": {
+              "ProjectionType": "ALL",
+            },
+          },
+          {
+            "IndexName": "gsi4",
+            "KeySchema": [
+              {
+                "AttributeName": "gsi4_pk",
+                "KeyType": "HASH",
+              },
+              {
+                "AttributeName": "gsi4_sk",
+                "KeyType": "RANGE",
+              },
+            ],
+            "Projection": {
+              "ProjectionType": "ALL",
+            },
+          },
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "pk",
+            "KeyType": "HASH",
+          },
+          {
+            "AttributeName": "sk",
+            "KeyType": "RANGE",
+          },
+        ],
+        "PointInTimeRecoverySpecification": {
+          "PointInTimeRecoveryEnabled": false,
+        },
+        "StreamSpecification": {
+          "StreamViewType": "NEW_IMAGE",
+        },
+        "TableName": "dev-challenge-items",
+      },
+      "Type": "AWS::DynamoDB::Table",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "devchallengelistitemslambdaDA26AE12": {
+      "DependsOn": [
+        "devchallengelistitemslambdaServiceRoleDefaultPolicy5C68FDB8",
+        "devchallengelistitemslambdaServiceRoleBFA8FBBE",
+      ],
+      "Properties": {
+        "Code": Any<Object>,
+        "Environment": {
+          "Variables": {
+            "APP_ENV": "dev",
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "DYNAMODB_TABLE_NAME": {
+              "Ref": "devchallengeitemstableC3486294",
+            },
+            "LOG_LEVEL": "debug",
+          },
+        },
+        "FunctionName": "dev-challenge-list-items",
+        "Handler": "index.listItems",
+        "MemorySize": 256,
+        "Role": {
+          "Fn::GetAtt": [
+            "devchallengelistitemslambdaServiceRoleBFA8FBBE",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 10,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "devchallengelistitemslambdaServiceRoleBFA8FBBE": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "devchallengelistitemslambdaServiceRoleDefaultPolicy5C68FDB8": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "devchallengeitemstableC3486294",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "devchallengeitemstableC3486294",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "devchallengeitemstableC3486294",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "devchallengeitemstableC3486294",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "devchallengelistitemslambdaServiceRoleDefaultPolicy5C68FDB8",
+        "Roles": [
+          {
+            "Ref": "devchallengelistitemslambdaServiceRoleBFA8FBBE",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "devchallengelistitemsloggroup86829F5D": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/dev-challenge-list-items",
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "devchallengestreamlambdaC2F39009": {
+      "DependsOn": [
+        "devchallengestreamlambdaServiceRoleDefaultPolicy8A076199",
+        "devchallengestreamlambdaServiceRole6D259139",
+      ],
+      "Properties": {
+        "Code": Any<Object>,
+        "Environment": {
+          "Variables": {
+            "APP_ENV": "dev",
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "DYNAMODB_TABLE_NAME": {
+              "Ref": "devchallengeitemstableC3486294",
+            },
+            "LOG_LEVEL": "debug",
+          },
+        },
+        "FunctionName": "dev-challenge-stream",
+        "Handler": "index.handler",
+        "MemorySize": 256,
+        "Role": {
+          "Fn::GetAtt": [
+            "devchallengestreamlambdaServiceRole6D259139",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 10,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "devchallengestreamlambdaDynamoDBEventSourcedevchallengestacktestdevchallengeitemstable58786D48DD5C9133": {
+      "Properties": {
+        "BatchSize": 10,
+        "EventSourceArn": {
+          "Fn::GetAtt": [
+            "devchallengeitemstableC3486294",
+            "StreamArn",
+          ],
+        },
+        "FunctionName": {
+          "Ref": "devchallengestreamlambdaC2F39009",
+        },
+        "MaximumRetryAttempts": 3,
+        "StartingPosition": "LATEST",
+      },
+      "Type": "AWS::Lambda::EventSourceMapping",
+    },
+    "devchallengestreamlambdaServiceRole6D259139": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "devchallengestreamlambdaServiceRoleDefaultPolicy8A076199": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "devchallengeitemstableC3486294",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "devchallengeitemstableC3486294",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "devchallengeitemstableC3486294",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "devchallengeitemstableC3486294",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "dynamodb:ListStreams",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "dynamodb:DescribeStream",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "devchallengeitemstableC3486294",
+                  "StreamArn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "devchallengestreamlambdaServiceRoleDefaultPolicy8A076199",
+        "Roles": [
+          {
+            "Ref": "devchallengestreamlambdaServiceRole6D259139",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "devchallengestreamloggroup39FA15A4": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/dev-challenge-stream",
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "devchallengeupdateitemlambdaF3F64135": {
+      "DependsOn": [
+        "devchallengeupdateitemlambdaServiceRoleDefaultPolicy4A94A2B4",
+        "devchallengeupdateitemlambdaServiceRole83546285",
+      ],
+      "Properties": {
+        "Code": Any<Object>,
+        "Environment": {
+          "Variables": {
+            "APP_ENV": "dev",
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "DYNAMODB_TABLE_NAME": {
+              "Ref": "devchallengeitemstableC3486294",
+            },
+            "LOG_LEVEL": "debug",
+          },
+        },
+        "FunctionName": "dev-challenge-update-item",
+        "Handler": "index.updateItem",
+        "MemorySize": 256,
+        "Role": {
+          "Fn::GetAtt": [
+            "devchallengeupdateitemlambdaServiceRole83546285",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 10,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "devchallengeupdateitemlambdaServiceRole83546285": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "devchallengeupdateitemlambdaServiceRoleDefaultPolicy4A94A2B4": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "devchallengeitemstableC3486294",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "devchallengeitemstableC3486294",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "devchallengeitemstableC3486294",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "devchallengeitemstableC3486294",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "devchallengeupdateitemlambdaServiceRoleDefaultPolicy4A94A2B4",
+        "Roles": [
+          {
+            "Ref": "devchallengeupdateitemlambdaServiceRole83546285",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "devchallengeupdateitemloggroupC11A3C40": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/dev-challenge-update-item",
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "devchallengeuserpoolD2147EB8": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "AccountRecoverySetting": {
+          "RecoveryMechanisms": [
+            {
+              "Name": "verified_phone_number",
+              "Priority": 1,
+            },
+            {
+              "Name": "verified_email",
+              "Priority": 2,
+            },
+          ],
+        },
+        "AdminCreateUserConfig": {
+          "AllowAdminCreateUserOnly": true,
+        },
+        "AutoVerifiedAttributes": [
+          "email",
+        ],
+        "EmailVerificationMessage": "The verification code to your new account is {####}",
+        "EmailVerificationSubject": "Verify your new account",
+        "SmsVerificationMessage": "The verification code to your new account is {####}",
+        "UserPoolName": "dev-challenge-user-pool",
+        "UsernameAttributes": [
+          "email",
+        ],
+        "VerificationMessageTemplate": {
+          "DefaultEmailOption": "CONFIRM_WITH_CODE",
+          "EmailMessage": "The verification code to your new account is {####}",
+          "EmailSubject": "Verify your new account",
+          "SmsMessage": "The verification code to your new account is {####}",
+        },
+      },
+      "Type": "AWS::Cognito::UserPool",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "devchallengeuserpoolclient8C527EDA": {
+      "Properties": {
+        "AllowedOAuthFlows": [
+          "implicit",
+          "code",
+        ],
+        "AllowedOAuthFlowsUserPoolClient": true,
+        "AllowedOAuthScopes": [
+          "profile",
+          "phone",
+          "email",
+          "openid",
+          "aws.cognito.signin.user.admin",
+        ],
+        "CallbackURLs": [
+          "https://example.com",
+        ],
+        "ClientName": "dev-challenge-user-pool-client",
+        "ExplicitAuthFlows": [
+          "ALLOW_USER_PASSWORD_AUTH",
+          "ALLOW_USER_SRP_AUTH",
+          "ALLOW_REFRESH_TOKEN_AUTH",
+        ],
+        "SupportedIdentityProviders": [
+          "COGNITO",
+        ],
+        "UserPoolId": {
+          "Ref": "devchallengeuserpoolD2147EB8",
+        },
+      },
+      "Type": "AWS::Cognito::UserPoolClient",
+    },
+  },
+}
+`;

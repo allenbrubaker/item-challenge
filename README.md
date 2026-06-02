@@ -1,128 +1,70 @@
 # Item Challenge
 
-Welcome! This is a take-home coding assignment for a software engineering position. In this challenge, you'll be building a simplified version of an exam item management API with cloud infrastructure.
+Exam item management API implemented as a serverless TypeScript application.
 
-Once you're ready to get started, read through [GETTING_STARTED.md](GETTING_STARTED.md).
+## API
 
-## Your Task (1-3 hours)
+All routes are served by API Gateway HTTP API v2 and protected by a Lambda authorizer that validates Cognito access tokens.
 
-**Please do not spend more than 3 hours on this. It is not expected for your solution to be perfectly polished and we want to be respectful of your time.**
-
-Build a simplified exam item management system that demonstrates your ability to design scalable, secure APIs with proper cloud infrastructure.
-
-### 1. API Implementation (TypeScript + Node.js)
-
-Create API endpoints for managing exam items:
-
-```
-POST   /api/items              - Create a new exam item
-GET    /api/items/:id          - Retrieve an item
-PUT    /api/items/:id          - Update an item
-GET    /api/items              - List items (with pagination)
-POST   /api/items/:id/versions - Create a new version of an item
-GET    /api/items/:id/audit    - Get audit trail for an item
+```text
+POST   /api/items              Create a new exam item; returns 201 with the item
+GET    /api/items/{id}         Retrieve an item; returns 200 with the item
+PUT    /api/items/{id}         Update an item; returns 204 with no body
+GET    /api/items              List items with cursor pagination; returns 200
+GET    /api/items/{id}/audit   Get version snapshots with cursor pagination; returns 200
 ```
 
-**Goals:**
+List and audit requests use cursor pagination:
 
-- Write handlers designed for AWS Lambda (serverless architecture)
-- Implement proper error handling and validation
-- Use appropriate HTTP status codes for responses
-- Focus on 2-3 endpoints working well rather than all 6 partially done
-
-**Note:** A local development server is provided for testing. Your handlers should be written with Lambda deployment in mind, but you'll test them locally.
-
-### 2. Infrastructure as Code
-
-Define the cloud infrastructure needed to deploy this system using **either** AWS CDK **or** Terraform (your choice).
-
-**Goals:**
-
-- Use AWS CDK (TypeScript preferred) **OR** Terraform
-- Define resources: Lambda functions, API Gateway, DynamoDB (optional), IAM roles, CloudWatch logs
-- Include comments explaining your design choices
-- Define environment-specific configurations
-- You do **not** need to actually deploy - just provide valid infrastructure code
-
-**Validation:**
-
-- For CDK: Run `cdk synth` to validate
-- For Terraform: Run `terraform plan` to validate
-
-### 3. Data Modeling
-
-Design storage for exam items with this structure:
-
-```ts
-{
-  id: string,
-  subject: string,           // e.g., "AP Biology", "AP Calculus"
-  itemType: string,          // "multiple-choice", "free-response", "essay"
-  difficulty: number,        // 1-5
-  content: {
-    question: string,
-    options?: string[],      // For multiple choice
-    correctAnswer: string,
-    explanation: string
-  },
-  metadata: {
-    author: string,
-    created: timestamp,
-    lastModified: timestamp,
-    version: number,
-    status: string,          // "draft", "review", "approved", "archived"
-    tags: string[]
-  },
-  securityLevel: string      // "standard", "secure", "highly-secure"
-}
+```text
+GET /api/items?limit=25
+GET /api/items?limit=25&cursor=<opaque-cursor>
+GET /api/items?subject=AP%20Biology&status=approved&limit=25
+GET /api/items/{id}/audit?limit=25&cursor=<opaque-cursor>
 ```
 
-**Goals:**
+Validated enum values:
 
-- Support versioning (keep history of changes)
-- Design appropriate DynamoDB keys and indexes (documented in ARCHITECTURE.md)
-- Implement basic CRUD operations
+- `itemType`: `multiple-choice`, `free-response`, `essay`
+- `metadata.status`: `draft`, `review`, `approved`, `archived`
+- `securityLevel`: `standard`, `secure`, `highly-secure`
 
-**Note:** An in-memory storage implementation is provided for local testing. You can optionally implement DynamoDB storage if you want to go the extra mile.
+## Infrastructure
 
-### 4. Architectural Decision Document
+AWS CDK provisions:
 
-Include a brief `ARCHITECTURE.md` file (template provided) covering:
+- DynamoDB single-table storage named `{APP_ENV}-challenge-items`
+- Generic GSIs named `gsi`, `gsi2`, `gsi3`, and `gsi4`
+- Cognito User Pool and app client
+- Lambda authorizer
+- Five route-specific Lambda functions
+- DynamoDB Stream and stream Lambda for asynchronous version snapshots
+- API Gateway HTTP API
+- CloudWatch log groups and DynamoDB table permissions scoped to this table
 
-- Data model design and DynamoDB schema
-- Infrastructure choices and rationale
-- Scalability & performance considerations
-- Security approach
-- Trade-offs and future improvements
+`APP_ENV` must be one of `local`, `dev`, `qa`, `int`, `uat`, or `prod`. Resource names are prefixed with `{APP_ENV}-challenge-`.
 
-## 🚀 Project Setup
+`LOG_LEVEL` controls the minimum log severity emitted by Lambda code. Supported values are `debug`, `info`, `warn`, and `error`.
 
-See [GETTING_STARTED.md](GETTING_STARTED.md) for detailed setup instructions.
-
-**Quick start:**
+## Commands
 
 ```bash
 pnpm install
-pnpm dev
+pnpm build
+pnpm test
+APP_ENV=dev pnpm cdk:synth
+APP_ENV=dev pnpm deploy
+pnpm deploy:local
 ```
 
-## What We're Evaluating
+`pnpm deploy:local` starts LocalStack, bootstraps CDK locally, and deploys with `APP_ENV=local`.
 
-- **Code Quality:** Clean, readable, maintainable code
-- **AWS Knowledge:** Proper use of Lambda, API Gateway, DynamoDB, IAM, CloudWatch
-- **Infrastructure as Code:** Well-structured CDK/Terraform with best practices
-- **NoSQL Design:** Appropriate key design and access patterns
-- **Testing:** Well-structured tests with good coverage of core functionality (optional but encouraged)
-- **Prioritization:** How you approach the time constraint
+## Notes
 
-## Submission
+Unknown handler exceptions are logged and returned as:
 
-Please fork this repository and submit your completed solution by sharing your forked repo link with your recruiter.
+```json
+{ "error": "An internal error occurred." }
+```
 
-### Include the following in your submission:
-
-- Instructions on how to run your solution locally  
-- Include a brief `ARCHITECTURE.md` describing your system’s structure and key components  
-Good luck! We're excited to see your solution.
-
-> See also the [Glossary](./GLOSSARY.md) for definitions of key terms used in this challenge.
+Known custom errors and validation errors return public-safe messages with appropriate status codes.

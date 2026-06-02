@@ -1,0 +1,17 @@
+services:
+  localstack:
+    image: localstack/localstack:3
+    container_name: challenge-localstack
+    ports:
+      - '4566:4566'
+    environment:
+      AWS_DEFAULT_REGION: us-east-1
+      DEBUG: '0'
+      SERVICES: cloudformation,s3,iam,lambda,apigateway,dynamodb,logs,sts,cognito-idp
+      LAMBDA_EXECUTOR: docker
+    volumes:
+      - localstack-data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  localstack-data:

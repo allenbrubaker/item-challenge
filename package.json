@@ -4,19 +4,29 @@
   "description": "Exam item management API",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "cdk:synth": "cdk synth",
+    "deploy": "cdk deploy",
+    "deploy:local": "docker compose up -d localstack && APP_ENV=local cdklocal bootstrap && APP_ENV=local cdklocal deploy --require-approval never",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "test:ui": "vitest --ui"
+    "test:reset": "vitest run -u"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.146",
     "@types/node": "^20.14.9",
+    "@vitest/coverage-v8": "2.1.9",
     "@vitest/ui": "^2.1.8",
+    "aws-cdk": "^2.173.4",
+    "aws-cdk-lib": "^2.173.4",
+    "aws-cdk-local": "^3.0.4",
+    "aws-sdk-client-mock": "^4.1.0",
+    "aws-sdk-client-mock-jest": "^4.1.0",
+    "constructs": "^10.4.2",
+    "esbuild": "^0.24.2",
+    "jest-cdk-snapshot": "^2.3.6",
     "tsx": "^4.15.7",
     "typescript": "^5.5.2",
     "vitest": "^2.1.8"
@@ -24,7 +34,10 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.600.0",
     "@aws-sdk/lib-dynamodb": "^3.600.0",
-    "uuid": "^10.0.0",
+    "@aws-sdk/util-dynamodb": "^3.600.0",
+    "aws-jwt-verify": "^4.0.1",
+    "inversify": "^8.1.0",
+    "reflect-metadata": "^0.2.2",
     "zod": "^3.23.8"
   }
 }
