@@ -9,7 +9,8 @@
     "deploy": "cdk deploy",
     "deploy:local": "docker compose up -d localstack && APP_ENV=local cdklocal bootstrap && APP_ENV=local cdklocal deploy --require-approval never",
     "test": "vitest run",
-    "test:reset": "vitest run -u"
+    "test:reset": "vitest run -u",
+    "question": "ts-node src/question.ts"
   },
   "keywords": [],
   "author": "",
